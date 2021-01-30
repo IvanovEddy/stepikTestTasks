@@ -31,16 +31,16 @@ def test_correct_answer(browser, url):
     link = f"{url}"
     browser.get(link)
     answer = math.log(int(time.time()))
-    answer_input = WebDriverWait(browser, 12).until(
+    answer_input = lambda: WebDriverWait(browser, 12).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, ".textarea"))
-                                                   )
+    )
     answer_button = WebDriverWait(browser, 12).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, ".submit-submission"))
-                                                   )
-    answer_input.send_keys(str(answer))
+    )
+    answer_input().send_keys(str(answer))
     answer_button.click()
     feedback_elm = WebDriverWait(browser, 12).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, ".smart-hints__hint"))
-                                                   )
+    )
     feedback_text = feedback_elm.text
     assert "Correct!" == feedback_text

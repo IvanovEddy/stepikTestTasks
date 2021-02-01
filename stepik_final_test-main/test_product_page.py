@@ -2,11 +2,11 @@ import time
 
 import pytest
 
+from pages.basket_page import BasketPage
 from pages.login_page import LoginPage
 from pages.product_page import ProductPage
 
 
-@pytest.mark.skip
 @pytest.mark.parametrize('link', ["http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer0",
                                   "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer1",
                                   "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer2",
@@ -51,6 +51,17 @@ def test_message_disappeared_after_adding_product_to_basket(browser):
     page.open()
     page.add_to_basket()
     page.success_message_is_disappeared()
+
+
+@pytest.mark.basket
+def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
+    link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+    page = ProductPage(browser, link)
+    page.open()
+    page.go_to_basket()
+    basket_page = BasketPage(browser, link)
+    basket_page.should_not_be_items()
+    basket_page.should_be_basket_empty_text()
 
 
 def test_guest_should_see_login_link_on_product_page(browser):

@@ -11,4 +11,3 @@ class BasketPage(BasePage):
         basket_empty = self.browser.find_element(*BasketPageLocators.BASKET_IS_EMPTY_MESSAGE)
         basket_empty_text = basket_empty.text
         assert 'empty' in basket_empty_text
-
